@@ -68,10 +68,14 @@ async function findById(id) {
       FROM appointments a
       JOIN medics m ON m.id = a.medic_id
       WHERE patient_id = $1
+      AND confirmed = 'false'
+      AND cancelled = 'false'
       `,
       [patient_id]
     );
   }
+
+  
 
 
 
