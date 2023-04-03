@@ -38,7 +38,7 @@ async function findById(id) {
     `, [name, specialty, address]);
   }
 
-  async function findByDate(date, start_time) {
+  async function findByDate({date, start_time}) {
     return await connectionDb.query(`
       SELECT * FROM appointments 
       WHERE 
@@ -48,17 +48,17 @@ async function findById(id) {
     `, [date,start_time]);
   }
 
-  async function createAppointment({patient_id, medic_id, date, start_time }){
+  async function createAppointment({userId, medic_id, date, start_time }){
     await connectionDb.query(
       `
           INSERT INTO appointments (patient_id, medic_id, date, start_time)
           VALUES ($1, $2, $3, $4)
       `,
-      [patient_id, medic_id, date, start_time]
+      [userId, medic_id, date, start_time]
     );
   }
 
-  async function getAllAppointments(patient_id) {
+  async function getAllAppointments(userId) {
     return await connectionDb.query(
       `
       SELECT 
@@ -71,18 +71,18 @@ async function findById(id) {
       AND confirmed = 'false'
       AND cancelled = 'false'
       `,
-      [patient_id]
+      [userId]
     );
   }
 
-  async function getFinishedAppointments(patient_id){
+  async function getFinishedAppointments(userId){
     return await connectionDb.query(
       `    
       SELECT * FROM appointments 
       WHERE patient_id = $1
       AND (confirmed = 'true' || cancelled = 'true')
     `,
-      [patient_id]
+      [userId]
     );
   }
 

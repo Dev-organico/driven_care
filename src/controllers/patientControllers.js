@@ -34,11 +34,13 @@ async function getMedics(req, res, next) {
 }
 
 async function createAppointment(req, res, next) {
+  
   const { medic_id, date, start_time } = req.body
-  const { patient_id, type } = res.locals.user
-
+  const { userId, type } = res.locals.user
+  
+  
   try {
-    await patientServices.createAppointment({ patient_id, medic_id, date, start_time, type });
+    await patientServices.createAppointment({ userId, medic_id, date, start_time, type });
     return res.sendStatus(201);
   } catch (err) {
     next(err);

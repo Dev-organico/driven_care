@@ -13,7 +13,6 @@ async function authValidation(req, res, next) {
     if (schema !== "Bearer") throw errors.unauthorizedError();
 
     
-
     jwt.verify(token, process.env.SECRET_JWT, async (error, decoded) => {
         try {
             if (error) throw errors.unauthorizedError();
@@ -25,19 +24,21 @@ async function authValidation(req, res, next) {
                     rows: [patient],
                 } = await patientRepositories.findById(decoded.userId);
                 if (!patient) throw errors.unauthorizedError();
-                user = patient
+                user = decoded
             }
             else if (decoded.type === "medic") {
                 const {
                     rows: [medic],
                 } = await medicRepositories.findById(decoded.userId);
                 if (!medic) throw errors.unauthorizedError();
-                user = medic
+                user = decoded
             }
 
             res.locals.user = user;
-
+            
             next();
+
+
         } catch (err) {
             next(err);
         }

@@ -42,34 +42,46 @@ async function getMedics({ name, specialty, address, type }) {
 
 }
 
-async function createAppointment({ patient_id, medic_id, date, start_time, type }) {
+async function createAppointment({userId, medic_id, date, start_time, type }) {
 
   if (type === 'medic')throw errors.unauthorizedError();
-
-  const { rowCount } = await patientRepositories.findByDate(date, start_time)
+  
+  const { rowCount } = await patientRepositories.findByDate({date, start_time})
   if (rowCount) throw errors.conflictError("This date/hour is not available")
+  
+  await patientRepositories.createAppointment({ userId, medic_id, date, start_time });
 
-  await patientRepositories.createAppointment({ patient_id, medic_id, date, start_time });
-  if (!rowCount) throw errors.notFoundError();
-
+  
 
 }
 
-async function getAllApointments({ patient_id, type }){
+async function getAllApointments({ userId, type }){
 
   if (type === 'medic')throw errors.unauthorizedError();
-
+  
   const {
     rowCount,
     rows: [appointments],
-  } = await patientRepositories.getAllAppointments(patient_id);
+  } = await patientRepositories.getAllAppointments(userId);
   if (!rowCount) throw errors.notFoundError();
 
   return appointments
 
 }
 
-  
+async function getFinishedAppointments({ userId, type }){
+
+  if (type === 'medic') throw errors.unauthorizedError();
+ 
+  const {
+    rowCount,
+    rows: [appointments],
+  } = await patientRepositories.getFinishedAppointments(userId);
+  if (!rowCount) throw errors.notFoundError();
+
+  return appointments
+
+}
 
 
 
@@ -78,5 +90,6 @@ export default {
   signIn,
   getMedics,
   createAppointment,
-  getAllApointments
+  getAllApointments,
+  getFinishedAppointments
 };
