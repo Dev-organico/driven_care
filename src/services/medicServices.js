@@ -27,7 +27,63 @@ async function signIn({ email, password }) {
   return token;
 }
 
+async function getAllappointments({ medic_id, type }){
+
+  if (type === 'patient') throw errors.unauthorizedError();
+
+  const {
+    rowCount,
+    rows: [appointments],
+  } = await medicRepositories.getAllAppointments(medic_id);
+  if (!rowCount) throw errors.notFoundError();
+
+  return appointments
+
+}
+
+async function confirmAppointments({ medic_id, type , id}){
+
+  if (type === 'patient') throw errors.unauthorizedError();
+
+  const {
+    rowCount,
+  } = await medicRepositories.confirmAppointments({ medic_id, id});
+  if (!rowCount) throw errors.notFoundError();
+
+}
+
+async function cancelAppointments({ medic_id, type , id}){
+
+  if (type === 'patient') throw errors.unauthorizedError();
+
+  const {
+    rowCount,
+  } = await medicRepositories.cancelAppointments({ medic_id, id});
+  if (!rowCount) throw errors.notFoundError();
+
+}
+
+async function getFinishedAppointments({ medic_id, type }){
+
+  if (type === 'patient') throw errors.unauthorizedError();
+
+  const {
+    rowCount,
+    rows: [appointments],
+  } = await medicRepositories.getFinishedAppointments(medic_id);
+  if (!rowCount) throw errors.notFoundError();
+
+  return appointments
+
+}
+
+
+
 export default {
   create,
   signIn,
+  getAllappointments,
+  confirmAppointments,
+  cancelAppointments,
+  getFinishedAppointments
 };

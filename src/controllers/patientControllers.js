@@ -59,6 +59,18 @@ async function getAllApointments(req, res, next) {
 
 }
 
+async function getFinishedAppointments(req, res, next) {
+
+  const { patient_id, type } = res.locals.user
+
+  try {
+    const appointments = await medicServices.getFinishedAppointments({ patient_id, type });
+    return res.send({ appointments });
+  } catch (err) {
+    next(err);
+  }
+}
+
 
 
 
@@ -67,5 +79,6 @@ export default {
   signIn,
   getMedics,
   createAppointment,
-  getAllApointments
+  getAllApointments,
+  getFinishedAppointments
 };

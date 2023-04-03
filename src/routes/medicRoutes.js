@@ -10,8 +10,8 @@ const medicRoutes = Router();
 medicRoutes.post('/signup', validateSchema(medicSchemma) , medicControllers.create)
 medicRoutes.post("/signin", medicControllers.signIn)
 medicRoutes.get("/appointments", authMiddleware.authValidation, medicControllers.getAllappointments )
-medicRoutes.patch("/confirmappointments", authMiddleware.authValidation, medicControllers.confirmAppointments )
-medicRoutes.patch("/cancelappointments", authMiddleware.authValidation,medicControllers.cancelAppointments)
+medicRoutes.patch("/confirmappointments/:id", authMiddleware.authValidation, medicControllers.confirmAppointments )
+medicRoutes.patch("/cancelappointments/:id", authMiddleware.authValidation,medicControllers.cancelAppointments)
 medicRoutes.get("/finishedappointments", authMiddleware.authValidation,medicControllers.getFinishedAppointments )
 
 

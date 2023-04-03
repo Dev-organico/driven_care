@@ -75,7 +75,17 @@ async function findById(id) {
     );
   }
 
-  
+  async function getFinishedAppointments(patient_id){
+    return await connectionDb.query(
+      `    
+      SELECT * FROM appointments 
+      WHERE patient_id = $1
+      AND (confirmed = 'true' || cancelled = 'true')
+    `,
+      [patient_id]
+    );
+  }
+
 
 
 
@@ -86,5 +96,6 @@ async function findById(id) {
     getMedics,
     findByDate,
     createAppointment,
-    getAllAppointments
+    getAllAppointments,
+    getFinishedAppointments
   };
