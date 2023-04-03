@@ -12,11 +12,13 @@ async function authValidation(req, res, next) {
     const [schema, token] = parts;
     if (schema !== "Bearer") throw errors.unauthorizedError();
 
-    let user = undefined;
+    
 
     jwt.verify(token, process.env.SECRET_JWT, async (error, decoded) => {
         try {
             if (error) throw errors.unauthorizedError();
+
+            let user = undefined;
 
             if (decoded.type === "patient") {
                 const {
@@ -32,9 +34,6 @@ async function authValidation(req, res, next) {
                 if (!medic) throw errors.unauthorizedError();
                 user = medic
             }
-
-
-
 
             res.locals.user = user;
 
