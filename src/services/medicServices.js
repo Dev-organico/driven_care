@@ -27,7 +27,7 @@ async function signIn({ email, password }) {
   return token;
 }
 
-async function getAllappointments({ userId, type }){
+async function getAllAppointments({ userId, type }){
 
   if (type === 'patient') throw errors.unauthorizedError();
 
@@ -82,7 +82,7 @@ async function getFinishedAppointments({ userId, type }){
 export default {
   create,
   signIn,
-  getAllappointments,
+  getAllAppointments,
   confirmAppointments,
   cancelAppointments,
   getFinishedAppointments

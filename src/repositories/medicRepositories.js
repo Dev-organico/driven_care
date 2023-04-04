@@ -28,10 +28,15 @@ async function findById(id) {
     );
   }
 
-  async function getAllappointments(userId){
+  async function getAllAppointments(userId){
     return await connectionDb.query(
       `    
-      SELECT * FROM appointments 
+      SELECT
+      p.name as pacient_name,
+      a.date, 
+      a.start_time
+      FROM appointments a
+      JOIN pacients p ON a.pacient_id = p.id
       WHERE medic_id = $1
       AND confirmed = 'false'
       AND cancelled = 'false'
@@ -72,7 +77,12 @@ async function findById(id) {
   async function getFinishedAppointments(userId){
     return await connectionDb.query(
       `    
-      SELECT * FROM appointments 
+      SELECT
+      p.name as pacient_name,
+      a.date, 
+      a.start_time
+      FROM appointments a
+      JOIN pacients p ON a.pacient_id = p.id
       WHERE medic_id = $1
       AND (confirmed = 'true' || cancelled = 'true')
     `,
@@ -86,7 +96,7 @@ async function findById(id) {
     findByEmail,
     create,
     findById,
-    getAllappointments,
+    getAllAppointments,
     confirmAppointments,
     cancelAppointments,
     getFinishedAppointments

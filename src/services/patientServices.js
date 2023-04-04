@@ -71,9 +71,9 @@ async function getAllApointments({ userId, type }){
 }
 
 async function getFinishedAppointments({ userId, type }){
-
+  
   if (type === 'medic') throw errors.unauthorizedError();
- 
+  
   const {
     rowCount,
     rows: [appointments],

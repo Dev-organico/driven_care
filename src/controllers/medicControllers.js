@@ -22,12 +22,12 @@ async function signIn(req, res, next) {
   }
 }
 
-async function getAllappointments(req, res, next) {
+async function getAllAppointments(req, res, next) {
 
-  const { medic_id, type } = res.locals.user
+  const { userId, type } = res.locals.user
 
   try {
-    const appointments = await medicServices.getAllappointments({ medic_id, type });
+    const appointments = await medicServices.getAllAppointments({ userId ,type });
     return res.send({ appointments });
   } catch (err) {
     next(err);
@@ -38,10 +38,10 @@ async function confirmAppointments(req, res, next) {
 
   const { id } = req.params
 
-  const { medic_id, type } = res.locals.user
+  const { userId, type } = res.locals.user
 
   try {
-    await medicServices.confirmAppointments({ medic_id, type , id});
+    await medicServices.confirmAppointments({ userId, type , id});
     return res.sendStatus(204)
   } catch (err) {
     next(err);
@@ -52,10 +52,10 @@ async function cancelAppointments(req, res, next) {
 
   const {id } = req.params
 
-  const { medic_id, type } = res.locals.user
+  const { userId, type } = res.locals.user
 
   try {
-    await medicServices.cancelAppointments({ medic_id, type , id});
+    await medicServices.cancelAppointments({ userId, type , id});
     return res.sendStatus(204)
   } catch (err) {
     next(err);
@@ -78,7 +78,7 @@ async function getFinishedAppointments(req, res, next) {
 export default {
   create,
   signIn,
-  getAllappointments,
+  getAllAppointments,
   confirmAppointments,
   cancelAppointments,
   getFinishedAppointments

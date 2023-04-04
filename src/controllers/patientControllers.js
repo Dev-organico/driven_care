@@ -53,9 +53,9 @@ async function createAppointment(req, res, next) {
 }
 
 async function getAllApointments(req, res, next) {
-
-  const { userId, type } = res.locals.user
-
+  
+  const  { userId, type } = res.locals.user
+  
   try {
     const appointments = await patientServices.getAllApointments({ userId, type });
     return res.send({appointments}).status(200);
@@ -66,11 +66,11 @@ async function getAllApointments(req, res, next) {
 }
 
 async function getFinishedAppointments(req, res, next) {
-
+  
   const { userId, type } = res.locals.user
 
   try {
-    const appointments = await medicServices.getFinishedAppointments({ userId, type });
+    const appointments = await patientServices.getFinishedAppointments({ userId, type });
     return res.send({ appointments });
   } catch (err) {
     next(err);
