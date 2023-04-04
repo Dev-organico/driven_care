@@ -3,9 +3,9 @@ import medicServices from "../services/medicServices.js";
 
 
 async function create(req, res, next) {
-  const { name, email, password, specialty, adress } = req.body;
+  const { name, email, password, specialty, address } = req.body;
   try {
-    await medicServices.create({ name, email, password, specialty, adress });
+    await medicServices.create({ name, email, password, specialty, address });
     return res.sendStatus(201);
   } catch (err) {
     next(err);
@@ -64,10 +64,10 @@ async function cancelAppointments(req, res, next) {
 
 async function getFinishedAppointments(req, res, next) {
 
-  const { medic_id, type } = res.locals.user
+  const { userId , type } = res.locals.user
 
   try {
-    const appointments = await medicServices.getFinishedAppointments({ medic_id, type });
+    const appointments = await medicServices.getFinishedAppointments({ userId, type });
     return res.send({ appointments });
   } catch (err) {
     next(err);

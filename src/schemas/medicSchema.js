@@ -5,5 +5,5 @@ export const medicSchemma = joi.object({
   email: joi.string().email().required(),
   password: joi.string().required(),
   specialty: joi.string().required(),
-  adress: joi.string().required()
+  address: joi.string().required()
 });

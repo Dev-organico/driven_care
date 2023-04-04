@@ -4,12 +4,12 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import medicRepositories from "../repositories/medicRepositories.js";
 
-async function create({ name, email, password, specialty, adress }) {
+async function create({ name, email, password, specialty, address }) {
   const { rowCount } = await medicRepositories.findByEmail(email);
   if (rowCount) throw errors.duplicatedEmailError(email);
 
   const hashPassword = await bcrypt.hash(password, 10);
-  await medicRepositories.create({ name, email, password: hashPassword, specialty, adress });
+  await medicRepositories.create({ name, email, password: hashPassword, specialty, address });
 }
 
 async function signIn({ email, password }) {
@@ -27,50 +27,50 @@ async function signIn({ email, password }) {
   return token;
 }
 
-async function getAllappointments({ medic_id, type }){
+async function getAllappointments({ userId, type }){
 
   if (type === 'patient') throw errors.unauthorizedError();
 
   const {
     rowCount,
     rows: [appointments],
-  } = await medicRepositories.getAllAppointments(medic_id);
+  } = await medicRepositories.getAllAppointments(userId);
   if (!rowCount) throw errors.notFoundError();
 
   return appointments
 
 }
 
-async function confirmAppointments({ medic_id, type , id}){
+async function confirmAppointments({ userId, type , id}){
 
   if (type === 'patient') throw errors.unauthorizedError();
 
   const {
     rowCount,
-  } = await medicRepositories.confirmAppointments({ medic_id, id});
+  } = await medicRepositories.confirmAppointments({ userId, id});
   if (!rowCount) throw errors.notFoundError();
 
 }
 
-async function cancelAppointments({ medic_id, type , id}){
+async function cancelAppointments({ userId, type , id}){
 
   if (type === 'patient') throw errors.unauthorizedError();
 
   const {
     rowCount,
-  } = await medicRepositories.cancelAppointments({ medic_id, id});
+  } = await medicRepositories.cancelAppointments({ userId, id});
   if (!rowCount) throw errors.notFoundError();
 
 }
 
-async function getFinishedAppointments({ medic_id, type }){
+async function getFinishedAppointments({ userId, type }){
 
   if (type === 'patient') throw errors.unauthorizedError();
 
   const {
     rowCount,
     rows: [appointments],
-  } = await medicRepositories.getFinishedAppointments(medic_id);
+  } = await medicRepositories.getFinishedAppointments(userId);
   if (!rowCount) throw errors.notFoundError();
 
   return appointments

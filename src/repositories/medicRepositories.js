@@ -9,13 +9,13 @@ async function findByEmail(email) {
   );
 }
 
-async function create({ name, email, password, specialty, adress }) {
+async function create({ name, email, password, specialty, address }) {
   return await connectionDb.query(
     `
-        INSERT INTO medics (name, email, password, specialty, adress)
+        INSERT INTO medics (name, email, password, specialty, address)
         VALUES ($1, $2, $3, $4, $5)
     `,
-    [name, email, password, specialty, adress]
+    [name, email, password, specialty, address]
   );
 }
 
@@ -28,7 +28,7 @@ async function findById(id) {
     );
   }
 
-  async function getAllappointments(medic_id){
+  async function getAllappointments(userId){
     return await connectionDb.query(
       `    
       SELECT * FROM appointments 
@@ -36,11 +36,11 @@ async function findById(id) {
       AND confirmed = 'false'
       AND cancelled = 'false'
     `,
-      [medic_id]
+      [userId]
     );
   }
 
-  async function confirmAppointments({ medic_id , id}){
+  async function confirmAppointments({ userId , id}){
     return await connectionDb.query(
       `    
       UPDATE appointments
@@ -50,11 +50,11 @@ async function findById(id) {
       AND
       id = $2
     `,
-      [medic_id,id]
+      [userId,id]
     );
   }
 
-  async function cancelAppointments({ medic_id , id}){
+  async function cancelAppointments({ userId , id}){
     return await connectionDb.query(
       `    
       UPDATE appointments
@@ -64,19 +64,19 @@ async function findById(id) {
       AND 
       id = $2
     `,
-      [medic_id,id]
+      [userId,id]
     );
   }
 
 
-  async function getFinishedAppointments(medic_id){
+  async function getFinishedAppointments(userId){
     return await connectionDb.query(
       `    
       SELECT * FROM appointments 
       WHERE medic_id = $1
       AND (confirmed = 'true' || cancelled = 'true')
     `,
-      [medic_id]
+      [userId]
     );
   }
 
