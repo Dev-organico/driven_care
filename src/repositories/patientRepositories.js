@@ -30,7 +30,11 @@ async function findById(id) {
 
   async function getMedics({name, specialty, address}) {
     return await connectionDb.query(`
-      SELECT * FROM medics m
+      SELECT 
+      m.name,
+      m.specialty,
+      m.address
+      FROM medics m
       WHERE 
       (m.name ILIKE $1 || '%')
       AND (m.specialty ILIKE $2 || '%')

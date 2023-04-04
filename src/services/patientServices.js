@@ -32,6 +32,7 @@ async function getMedics({ name, specialty, address, type }) {
 
   if (type === 'medic') throw errors.unauthorizedError();
 
+  
   const {
     rowCount,
     rows: [medics],

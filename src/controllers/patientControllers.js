@@ -22,9 +22,13 @@ async function signIn(req, res, next) {
 }
 
 async function getMedics(req, res, next) {
-  const { name, specialty, address } = req.query
+  const name = req.query.name ?? ''
+  const specialty = req.query.specialty ?? ''
+  const address = req.query.adress ?? ''
+
   const { type } = res.locals.user
 
+  
   try {
     const medics = await patientServices.getMedics({ name, specialty, address, type });
     return res.send({ medics });
